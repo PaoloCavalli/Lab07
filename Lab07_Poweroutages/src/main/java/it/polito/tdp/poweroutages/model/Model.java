@@ -16,4 +16,7 @@ public class Model {
 		return podao.getNercList();
 	}
 
+	
+	
+	
 }
