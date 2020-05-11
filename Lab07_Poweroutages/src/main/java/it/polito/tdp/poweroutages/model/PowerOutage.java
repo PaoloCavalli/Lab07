@@ -3,7 +3,7 @@ package it.polito.tdp.poweroutages.model;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class PowerOutage {
+public class PowerOutage implements Comparable<PowerOutage>{
 
 	private int id;
     private Nerc nerc;
@@ -99,8 +99,16 @@ public class PowerOutage {
 	}
 	
 	//TODO compareTo e toString !
+	//ordino per inizio Black Out crescente
+	public int compareTo(PowerOutage p) {
+		return this.getInizioBlackOut().compareTo(p.getInizioBlackOut());
+	}
 	
-	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(id);
+		return builder.toString();
+	}
     
     
     

@@ -13,7 +13,7 @@ import it.polito.tdp.poweroutages.model.PowerOutage;
 
 public class PowerOutageDAO {
 	
-	public List<Nerc> getNercList() {
+	public List<Nerc> getNercList(NercIdMap nercIdMap) {
 
 		String sql = "SELECT id, value FROM nerc";
 		List<Nerc> nercList = new ArrayList<>();
@@ -22,10 +22,12 @@ public class PowerOutageDAO {
 			Connection conn = ConnectDB.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
 			ResultSet res = st.executeQuery();
-
+// stiamo gestendo l' oggetto modellato tramite idMap
+// quindi alla lista dobbiamo aggiungere l'oggetto nerc ottenendolo tramite la nostra idMap
+//nella classe idMap ---> metodo con firma ---> get(Nerc n)			
 			while (res.next()) {
 				Nerc n = new Nerc(res.getInt("id"), res.getString("value"));
-				nercList.add(n);
+				nercList.add(nercIdMap.get(n));
 			}
 
 			conn.close();
@@ -48,9 +50,10 @@ public class PowerOutageDAO {
 			Connection conn = ConnectDB.getConnection();
 			PreparedStatement st= conn.prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
-			
+// Vogliamo ottenere  una lista  <PowerOutage> che contiene un informazione (id_nerc) sfruttando l' idMap
+   // dobbiamo avere un metodo nell'idMap con firma ---> get(int id) 
 			while (rs.next()) {
-				Nerc n = nercIdMap.get(rs.getInt("id_nerc"));
+				Nerc n = nercIdMap.get(rs.getInt("nerc_id"));
 				if(n== null) {
 					System.err.println("Il DB è inconsistente manca l'oggetto Nerc corrispondente!");
 					
